@@ -6,13 +6,19 @@ pipeline {
     skipStagesAfterUnstable()
   }
   stages {
-    stage('Compile') {
+    stage('Clean Project') {
       steps {
-        // Compile the app and its dependencies
-        sh './gradlew clean assembleDebug assembleRelease'
+        // clean the project
+        sh './gradlew clean'
       }
     }
-       
+    
+    stage('Compile Project') {
+      steps {
+        // Compile the app and its dependencies
+        sh './gradlew compileDebugSources'
+      }
+    } 
   }
 
 }
