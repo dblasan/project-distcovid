@@ -13,21 +13,13 @@ pipeline {
         sh './gradlew clean'
       }
     }
-    stage('Test the code') {
+    stage('Build project') {
       steps {
         // Compile the app and its dependencies
-        echo 'Simple Test process'
-        sh './gradlew test -x'
+        echo 'Start build'
+        sh './gradlew assembleDebug'
       }
     }
-    
-   // stage('Compile Project') {
-   //   steps {
-        // Compile the app and its dependencies
-   //     echo 'Build the program'
-   //     sh './gradlew build --stacktrace'
-   //   }
-   // }
   }
 
 }
