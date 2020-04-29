@@ -21,13 +21,13 @@ pipeline {
       }
     }
     
-    stage('Compile Project') {
-      steps {
+   // stage('Compile Project') {
+   //   steps {
         // Compile the app and its dependencies
-        echo 'Build the program'
-        sh './gradlew build --stacktrace'
-      }
-    } 
+   //     echo 'Build the program'
+   //     sh './gradlew build --stacktrace'
+   //   }
+   // }
   }
 
 }
