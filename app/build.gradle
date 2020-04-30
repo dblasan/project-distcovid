@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
+// source: https://docs.gradle.org/current/userguide/jacoco_plugin.html
+//apply from: '../jacoco.gradle'
 
-jacoco{
-    toolVersion "0.8.5"
-}
+// android
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
@@ -31,6 +31,57 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+
+}
+
+// jacoco
+// source: https://tech.thalia.de/sonarqube-integration-in-einem-android-projekt/
+ext{
+    coverageSourceDirs = 'src/test/java'
+}
+
+jacoco{
+    toolVersion "0.8.5"
+    //reportsDir = file("$buildDir/reports/jacoco")
+}
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']){
+    group = "Reporting"
+    description = "Generate Jacoco reports for Debug and Build"
+
+    // define type of reports to generate
+    reports{
+        xml.enabled = true
+        //xml.destination file("${jacoco.reportsDir}/jacocoReportXml")
+
+        html.enabled = true
+        //html.destination file("${jacoco.reportsDir}/jacocoReportHtml")
+    }
+
+    def excludeFiles = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/build/generated/**',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            'com/**/*.*',
+            'androidTest/**/*.*',
+            '**/data/model/*'
+    ]
+
+    def debugTree = fileTree(
+            dir:"${buildDir}/intermediates/classes/debug",
+            excludes: excludeFiles
+    )
+
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories.from = files([mainSrc])
+    classDirectories.from = files([debugTree])
+    executionData.from = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'jacoco/outputs/code-coverage/connected/*coverage.ec'
+    ])
 
 }
 
