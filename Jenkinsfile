@@ -1,7 +1,7 @@
 pipeline {
   agent any
  
-  options {
+  /*options {
     // Stop the build early in case of compile or test failures
     skipStagesAfterUnstable()
   }
@@ -12,12 +12,16 @@ pipeline {
         echo 'Clean the project'
         sh './gradlew clean'
       }
-    }
+    }*/
     stage('Build project') {
       steps {
         // Compile the app and its dependencies
-        echo 'Start build'
-        sh './gradlew assembleDebug'
+        echo 'Start build...'
+        if(isUnix()){
+          sh './gradlew build'
+        }else{
+          bat 'gradlew.bat build'
+        }
       }
     }
   }

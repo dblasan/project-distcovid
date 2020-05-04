@@ -1,7 +1,13 @@
 # local properties
 local.properties
+sonar-project.properties
 
 #.gradle
 .gradle
 *.iml
 .idea/workspace.xml
+
+# ignore build directory
+.idea/caches/
+.idea/libraries/
+.scannerwork/
