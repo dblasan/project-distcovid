@@ -4,9 +4,9 @@ pipeline {
   /*options {
     // Stop the build early in case of compile or test failures
     skipStagesAfterUnstable()
-  }
+  }*/
   stages {
-    stage('Clean Project') {
+    /*stage('Clean Project') {
       steps {
         // clean the project
         echo 'Clean the project'
@@ -24,4 +24,5 @@ pipeline {
         }
       }
     }
+  }
 }
