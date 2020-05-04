@@ -17,11 +17,7 @@ pipeline {
       steps {
         // Compile the app and its dependencies
         echo 'Start build...'
-        if(isUnix()){
-          sh './gradlew build'
-        }else{
-          bat 'gradlew.bat build'
-        }
+        bat 'gradlew.bat build'
       }
     }
   }
