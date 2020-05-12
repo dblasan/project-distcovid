@@ -9,10 +9,7 @@ pipeline {
   stages {
     stage('Clean') {
       steps {
-	      echo 'print gradle version'
         bat "gradle -v"
-      }
-      steps {
 	      echo 'Clean project'
         bat "gradle clean -g ${workspace}\\build-caches --stacktrace"
       }
