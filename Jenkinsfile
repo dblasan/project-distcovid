@@ -7,15 +7,24 @@ pipeline {
 		//JAVA_HOME = "C:\Program Files\Java\jdk-11.0.7"
 	}
   stages {
-    stage('Env variables') {
-	
+    stage('Clean') {
       steps {
 	      echo 'print gradle version'
         bat "gradle -v"
-        bat "gradle clean -g ${workspace}\\build-caches -s"
-        
+      }
+      steps {
+	      echo 'Clean project'
+        bat "gradle clean -g ${workspace}\\build-caches --stacktrace"
       }
     }
+
+    stage('Build') {
+      steps {
+	      echo 'Build project'
+        bat "gradle build -g ${workspace}\\build-caches --stacktrace"
+      }
+    }
+
   }
 
 }
