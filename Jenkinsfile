@@ -1,33 +1,19 @@
 pipeline {
   agent any
- 
-  options {
-    // Stop the build early in case of compile or test failures
-    skipStagesAfterUnstable()
-  }
+  environment{
+		GRADLE_HOME = "C:\Gradle\gradle-6.3"
+		env.PATH = "${GRADLE_HOME};${GRADLE_HOME}\bin;${env.PATH}"
+		//SONARQUBE_HOME = "C:\sonarqube-8.2"
+		//JAVA_HOME = "C:\Program Files\Java\jdk-11.0.7"
+	}
   stages {
-    stage('Clean Project') {
+    stage('Env variables') {
+	
       steps {
-        // clean the project
-        echo 'Clean the project'
-        sh './gradlew clean'
+	  echo 'print gradle version'
+        bat 'gradle -v'
       }
     }
-    stage('Test the code') {
-      steps {
-        // Compile the app and its dependencies
-        echo 'Simple Test process'
-        sh './gradlew test -x'
-      }
-    }
-    
-    stage('Compile Project') {
-      steps {
-        // Compile the app and its dependencies
-        echo 'Build the program'
-        sh './gradlew build --stacktrace'
-      }
-    } 
   }
 
 }
