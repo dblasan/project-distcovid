@@ -32,7 +32,7 @@ android {
 
 sonarqube {
     properties {
-        property "sonar.host.url", http://localhost:9000/ //  url is your sonar server
+        property "sonar.host.url", "http://localhost:9000" //  url is your sonar server
         property "sonar.projectKey", "project-distcovid-key" // It sould be a keybased on this report is created
         property "sonar.login", "f85703f07980331332bdb268cffe6575ea83a74b"
         property "sonar.projectName", "project-distcovid-sonar"   //  this name will appear in dashboard
