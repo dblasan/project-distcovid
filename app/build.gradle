@@ -42,6 +42,16 @@ android {
     }
 }*/
 
+// jacoco configurations
+ext{
+    coverageSourceDirs = 'app/src/test/java'
+}
+
+jacoco{
+    toolVersion "0.8.5"
+    reportsDir = file("$buildDir/reports")
+}
+
 task jacocoTestReport(type:JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
     description = "Generate Jacoco coverage reports for Debug build"
