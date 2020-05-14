@@ -6,27 +6,27 @@ pipeline {
       steps {
         echo "${env.BRANCH_NAME}"
 	      echo 'Clean project'
-        bat "gradlew clean -g ${workspace}\\build-caches --stacktrace --warning-mode all"
+        bat "gradlew clean -g ${workspace}\\build-caches --stacktrace"
       }
     }
 
 stage('Test') {
       steps {
 	      echo 'Test project'
-        bat "gradlew test -g ${workspace}\\build-caches --stacktrace --warning-mode all"
+        bat "gradlew test -g ${workspace}\\build-caches --stacktrace"
       }
     }
     stage('Build') {
       steps {
 	      echo 'Build project'
-        bat "gradlew assembleDebug -g ${workspace}\\build-caches --stacktrace --warning-mode all"
+        bat "gradlew assembleDebug -g ${workspace}\\build-caches --stacktrace"
       }
     }
 
     stage('Integration test'){
       steps{
         echo 'Jacoco Report'
-        bat 'gradlew jacocoTestReport -g ${workspace}\\build-caches --stacktrace --warning-mode all'
+        bat 'gradlew jacocoTestReport -g ${workspace}\\build-caches --stacktrace'
       }
     }
 
