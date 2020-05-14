@@ -30,13 +30,13 @@ stage('Test') {
       }
     }
 
-    stage('SonarQube analysis') {
+    /*stage('SonarQube analysis') {
     steps {
       //withSonarQubeEnv() { // Will pick the global server connection you have configured
       bat 'gradlew sonarqube -X --info'//-Dsonar.projectKey=distcovid-bitbucket-key -Dsonar.junit.reportPaths=./build/test-results/test -Dsonar.binaries=./build/classes -Dsonar.coverage.jacoco.xmlReportPaths=./build/reports/jacoco/test/html/index.html''
     //}
     }
-  }
+  }*/
 
   }
 
