@@ -33,7 +33,7 @@ pipeline {
 
     stage('Deploy') {
     steps {
-        echo "$ANDROID_HOME"
+        echo '%ANDROID_HOME%'
         //bat 'env'
     }
   }
