@@ -10,7 +10,7 @@ pipeline {
       }
     }
 
-    stage('Build') {
+    /*stage('Build') {
       steps {
 	      echo 'Build project'
         bat "gradlew assembleDebug -g ${workspace}\\build-caches --stacktrace"
@@ -29,14 +29,14 @@ pipeline {
 	      echo 'Starting analysis'
         bat "gradlew sonarqube -g ${workspace}\\build-caches --stacktrace"
       }
-    }
-    /*stage('SonarQube analysis') {
+    }*/
+
+    stage('Deploy') {
     steps {
-      //withSonarQubeEnv() { // Will pick the global server connection you have configured
-      bat 'gradlew sonarqube --info'//-Dsonar.projectKey=distcovid-bitbucket-key -Dsonar.junit.reportPaths=./build/test-results/test -Dsonar.binaries=./build/classes -Dsonar.coverage.jacoco.xmlReportPaths=./build/reports/jacoco/test/html/index.html''
-    //}
+        echo '${env.ANDROID_HOME}'
+        bat 'env.ANDROID_HOME'
     }
-  }*/
+  }
 
   }
 
