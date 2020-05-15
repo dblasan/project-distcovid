@@ -2,7 +2,18 @@ pipeline {
   agent any
 
   environment {
+    echo 'loading Android environment variable'
+
     ANDROID_HOME = "$ANDROID_HOME"
+    ANDROID_EMULATOR = '%ANDROID_HOME%\\emulator'
+    ANDROID_ADB = '%ANDROID_HOME%\\cmdline-tools\latest\\bin'
+
+    echo '------------- EMULATOR (S) ---------------'
+    echo 'List available devices'
+    bat '%ANDROID_EMULATOR%\\emulator -list-avds'
+
+    echo '------------- ADB VERSION ----------------'
+    bat '%ANDROID_ADB%\\adb version'
   }
   stages {
     /*stage('Clean') {
@@ -36,12 +47,23 @@ pipeline {
 
     stage('Deploy') {
     steps {
-        bat '%ANDROID_HOME%\\emulator\\emulator -list-avds'
-        //echo '%ANDROID_HOME%'
+        echo 'List available devices'
+        bat '%ANDROID_EMULATOR%\\emulator -list-avds'
+        echo '(re)-start emulator'
+        timeout(time: 20, unit: 'SECONDS') {
+            bat '%ANDROID_EMULATOR%\\emulator -avd Nexus_5X_API_29_x86'
+        }
         //bat 'env'
     }
   }
 
+  }
+
+  post{
+    failure {
+        echo 'try to kill adb server'
+        bat '%ANDROID_ADB%\\adb kill-server'
+    }
   }
 
 }
