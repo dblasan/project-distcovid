@@ -27,13 +27,13 @@ pipeline {
     stage('SonarQube analysis') {
       steps {
 	      echo 'Starting analysis'
-        bat "gradlew sonarqube -X -g ${workspace}\\build-caches --stacktrace"
+        bat "gradlew sonarqube -g ${workspace}\\build-caches --stacktrace"
       }
     }
     /*stage('SonarQube analysis') {
     steps {
       //withSonarQubeEnv() { // Will pick the global server connection you have configured
-      bat 'gradlew sonarqube -X --info'//-Dsonar.projectKey=distcovid-bitbucket-key -Dsonar.junit.reportPaths=./build/test-results/test -Dsonar.binaries=./build/classes -Dsonar.coverage.jacoco.xmlReportPaths=./build/reports/jacoco/test/html/index.html''
+      bat 'gradlew sonarqube --info'//-Dsonar.projectKey=distcovid-bitbucket-key -Dsonar.junit.reportPaths=./build/test-results/test -Dsonar.binaries=./build/classes -Dsonar.coverage.jacoco.xmlReportPaths=./build/reports/jacoco/test/html/index.html''
     //}
     }
   }*/
