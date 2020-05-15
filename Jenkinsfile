@@ -33,7 +33,8 @@ pipeline {
 
     stage('Deploy') {
     steps {
-        echo '%ANDROID_HOME%'
+        bat "$ANDROID_HOME\emulator\emulator -list-avds"
+        //echo '%ANDROID_HOME%'
         //bat 'env'
     }
   }
