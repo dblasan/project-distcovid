@@ -2,11 +2,7 @@ pipeline {
   agent any
 
   environment {
-
     ANDROID_HOME = "$ANDROID_HOME"
-    ANDROID_EMULATOR = '%ANDROID_HOME%\\emulator'
-    ANDROID_ADB = '%ANDROID_HOME%\\cmdline-tools\\latest\\bin'
-
   }
 
   stages {
@@ -45,16 +41,14 @@ pipeline {
 
         echo '------------- EMULATOR (S) ---------------'
         echo 'List available devices'
-        bat '%ANDROID_EMULATOR%\\emulator -list-avds'
+        bat '%ANDROID_HOME%\\emulator\\emulator -list-avds'
 
         echo '------------- ADB VERSION ----------------'
-        bat '%ANDROID_ADB%\\adb version'
-        
-        echo 'List available devices'
-        bat '%ANDROID_EMULATOR%\\emulator -list-avds'
+        bat '%ANDROID_HOME%\\cmdline-tools\\latest\\bin\\adb version'
+
         echo '(re)-start emulator'
         timeout(time: 20, unit: 'SECONDS') {
-            bat '%ANDROID_EMULATOR%\\emulator -avd Nexus_5X_API_29_x86'
+            bat '%ANDROID_HOME%\\emulator\\emulator -avd Nexus_5X_API_29_x86'
         }
         //bat 'env'
     }
@@ -65,7 +59,7 @@ pipeline {
   post{
     failure {
         echo 'try to kill adb server'
-        bat '%ANDROID_ADB%\\adb kill-server'
+        bat '%ANDROID_HOME%\\cmdline-tools\\latest\\bin\\adb kill-server'
     }
   }
 
