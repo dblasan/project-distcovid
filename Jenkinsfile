@@ -2,7 +2,7 @@ pipeline {
   agent any
   
   stages {
-    stage('Clean') {
+    /*stage('Clean') {
       steps {
         echo "${env.BRANCH_NAME}"
 	      echo 'Clean project'
@@ -10,7 +10,7 @@ pipeline {
       }
     }
 
-    /*stage('Build') {
+    stage('Build') {
       steps {
 	      echo 'Build project'
         bat "gradlew assembleDebug -g ${workspace}\\build-caches --stacktrace"
@@ -33,8 +33,8 @@ pipeline {
 
     stage('Deploy') {
     steps {
-        echo "${env.ANDROID_HOME}"
-        bat 'env'
+        echo "$ANDROID_HOME"
+        //bat 'env'
     }
   }
 
