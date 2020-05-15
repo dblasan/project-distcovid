@@ -44,7 +44,7 @@ pipeline {
         bat '%ANDROID_HOME%\\emulator\\emulator -list-avds'
 
         echo '------------- ADB VERSION ----------------'
-        bat '%ANDROID_HOME%\\cmdline-tools\\latest\\bin\\adb version'
+        bat '%ANDROID_HOME%\\platform-tools\\adb version'
 
         echo '(re)-start emulator'
         timeout(time: 20, unit: 'SECONDS') {
