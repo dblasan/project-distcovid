@@ -1,0 +1,6 @@
+projectKey=project-distcovid-key
+serverUrl=http://localhost:9000
+serverVersion=8.2.0.32929
+dashboardUrl=http://localhost:9000/dashboard?id=project-distcovid-key
+ceTaskId=AXIWSDHw0ct2vmZXZxfS
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AXIWSDHw0ct2vmZXZxfS

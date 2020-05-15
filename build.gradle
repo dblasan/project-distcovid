@@ -13,6 +13,12 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+
+        // add jacoco to the project classpath
+        classpath 'org.jacoco:org.jacoco.core:0.8.5'
+
+        // add sonarqube to classpath
+        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1'
     }
 }
 

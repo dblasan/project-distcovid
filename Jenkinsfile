@@ -10,12 +10,6 @@ pipeline {
       }
     }
 
-stage('Test') {
-      steps {
-	      echo 'Test project'
-        bat "gradlew test -g ${workspace}\\build-caches --stacktrace"
-      }
-    }
     stage('Build') {
       steps {
 	      echo 'Build project'
@@ -30,6 +24,12 @@ stage('Test') {
       }
     }
 
+    stage('SonarQube analysis') {
+      steps {
+	      echo 'Starting analysis'
+        bat "gradlew sonarqube -X -g ${workspace}\\build-caches --stacktrace"
+      }
+    }
     /*stage('SonarQube analysis') {
     steps {
       //withSonarQubeEnv() { // Will pick the global server connection you have configured
