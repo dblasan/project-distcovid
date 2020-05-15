@@ -6,7 +6,7 @@ pipeline {
 
     ANDROID_HOME = "$ANDROID_HOME"
     ANDROID_EMULATOR = '%ANDROID_HOME%\\emulator'
-    ANDROID_ADB = '%ANDROID_HOME%\\cmdline-tools\latest\\bin'
+    ANDROID_ADB = '%ANDROID_HOME%\\cmdline-tools\\latest\\bin'
 
     echo '------------- EMULATOR (S) ---------------'
     echo 'List available devices'
