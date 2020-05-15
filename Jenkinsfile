@@ -1,6 +1,9 @@
 pipeline {
   agent any
-  
+
+  environment {
+    ANDROID_HOME = "$ANDROID_HOME"
+  }
   stages {
     /*stage('Clean') {
       steps {
@@ -33,7 +36,7 @@ pipeline {
 
     stage('Deploy') {
     steps {
-        bat "$ANDROID_HOME\emulator\emulator -list-avds"
+        bat '%ANDROID_HOME%\\emulator\\emulator -list-avds'
         //echo '%ANDROID_HOME%'
         //bat 'env'
     }
