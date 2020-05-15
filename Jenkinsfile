@@ -2,19 +2,13 @@ pipeline {
   agent any
 
   environment {
-    echo 'loading Android environment variable'
 
     ANDROID_HOME = "$ANDROID_HOME"
     ANDROID_EMULATOR = '%ANDROID_HOME%\\emulator'
     ANDROID_ADB = '%ANDROID_HOME%\\cmdline-tools\\latest\\bin'
 
-    echo '------------- EMULATOR (S) ---------------'
-    echo 'List available devices'
-    bat '%ANDROID_EMULATOR%\\emulator -list-avds'
-
-    echo '------------- ADB VERSION ----------------'
-    bat '%ANDROID_ADB%\\adb version'
   }
+
   stages {
     /*stage('Clean') {
       steps {
@@ -47,6 +41,15 @@ pipeline {
 
     stage('Deploy') {
     steps {
+
+
+        echo '------------- EMULATOR (S) ---------------'
+        echo 'List available devices'
+        bat '%ANDROID_EMULATOR%\\emulator -list-avds'
+
+        echo '------------- ADB VERSION ----------------'
+        bat '%ANDROID_ADB%\\adb version'
+        
         echo 'List available devices'
         bat '%ANDROID_EMULATOR%\\emulator -list-avds'
         echo '(re)-start emulator'
