@@ -33,8 +33,8 @@ pipeline {
 
     stage('Deploy') {
     steps {
-        echo '${env.ANDROID_HOME}'
-        bat 'env.ANDROID_HOME'
+        echo ${env.ANDROID_HOME}
+        bat 'env'
     }
   }
 
