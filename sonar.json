@@ -1,0 +1,4 @@
+{
+  "sonarHost": "http://localhost:9000",
+  "sonarProjectKey": "distcovid-bitbucket-key"
+}

@@ -1,2 +1,8 @@
-rootProject.name='project-distcovid'
 include ':app'
+// File: settings.gradle
+buildCache {
+    local {
+        // Set local build cache directory.
+        directory = "${settingsDir}/build-cache"
+    }
+}

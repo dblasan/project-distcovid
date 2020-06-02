@@ -1,95 +1,105 @@
 apply plugin: 'com.android.application'
-apply plugin: 'jacoco'
-apply plugin: "org.sonarqube" // required to see method sonarqube()
-
-jacoco{
-    toolVersion '0.8.5'
-    //destinationFile = file('$buildDir/jacoco/jacocoTest.exec')
-}
-
+apply plugin: 'jacoco' // Jacoco plugin
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
-
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
     defaultConfig {
-        applicationId "com.sose20.swt2.dist_covid"
-        minSdkVersion 14
-        targetSdkVersion 29
+        applicationId "com.rulan.project_distcovid"
+        minSdkVersion 15
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        maxSdkVersion 28
+        signingConfig signingConfigs.debug
     }
-
     buildTypes {
         release {
             minifyEnabled false
-            testCoverageEnabled false // disable test coverage for release
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
         debug {
             testCoverageEnabled true
         }
     }
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
     }
-
 }
 
-// Jacoco coverage
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
-    reports {
+// jacoco configurations
+ext{
+    coverageSourceDirs = 'app/src/test/java'
+}
+
+jacoco{
+    toolVersion "0.8.5"
+    reportsDir = file("$buildDir/reports")
+}
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']){
+    group = "Reporting"
+    description = "Generate Jacoco reports for Debug and Build"
+
+    // define type of reports to generate
+    reports{
         xml.enabled = true
         html.enabled = true
+        csv.enabled = true
     }
 
-    def fileFilter = ['**/R.class',
-                      '**/R$*.class',
-                      '**/BuildConfig.*',
-                      '**/Manifest*.*',
-                      '**/*Test*.*',
-                      'android/**/*.*',
-                      '**/data/models/*']
-    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
-    def mainSrc = "${project.projectDir}/src/main/java"
+    def excludeFiles = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/*$ViewBinder*.*',
+            '**/*$InjectAdapter*.*',
+            '**/*Injector*.*',
+            '**/BuildConfig.*',
+            '**/Manifest*.*'
+           // '**/*Test*.*',
+           // 'android/**/*.*',
+           // 'com/**/*.*',
+           // 'androidTest/**/*.*',
+           // '**/data/model/*'
+    ]
+
+    if (project.hasProperty("teamcity")) {
+        println '##teamcity[jacocoReport ' +
+                'dataPath=\'app/build/jacoco/testDebugUnitTest.exec\' ' +
+                'includes=\'com.rulan.project_distcovid.*\' ' +
+                'excludes=\'**/R.class **/R$*.class ' +
+                '**/*$ViewInjector*.* **/BuildConfig.* **/Manifest*.*\']'
+    }
+
+    def debugTree = fileTree(
+            dir:"${buildDir}/intermediates/classes/debug",
+            excludes: excludeFiles
+    )
+
+    def mainSrc = "${project.projectDir}/app/src/main/java"
 
     sourceDirectories.from = files([mainSrc])
     classDirectories.from = files([debugTree])
-    executionData.from = fileTree(dir: "$buildDir", includes: [
-            "jacoco/testDebugUnitTest.exec",
-            "outputs/code-coverage/connected/*coverage.ec"
+    executionData.from = fileTree(dir: project.buildDir, includes: [
+            'app/build/jacoco/testDebugUnitTest.exec'
     ])
 
-}
-
-// sonarqube
-sonarqube {
-    properties {
-        property 'sonar.projectKey', 'project-distcovid-key'
-        property 'sonar.host.url', 'http://localhost:9000/'
-        property 'sonar.login', 'f85703f07980331332bdb268cffe6575ea83a74b'
-        property 'sonar.projectName', 'project-distcovid-sonar'
-        property 'sonar.working.directory', '$project.buildDir/sonar'
-        property 'sonar.projectVersion', '1'
-        property 'sonar.scm.provider', 'git'
-        property 'sonar.sources', 'src/main'
-        property 'sonar.sourceEncoding', 'UTF-8'
-        property 'sonar.java.binaries', 'build'
-       // property 'sonar.java.libraries', 'libs/*.jar'
-        property 'sonar.java.test.binaries', 'build'
-        //property 'sonar.java.test.libraries', 'libs/*.jar'
-        property 'sonar.jacoco.reportPaths', 'build/jacoco/testDebugUnitTest.exec'
+    doFirst {
+        new File("$buildDir/intermediates/classes/").eachFileRecurse { file ->
+            if (file.name.contains('$$')) {
+                file.renameTo(file.path.replace('$$', '$'))
+            }
+        }
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.2.0-beta01'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
     testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-beta01'
 }
